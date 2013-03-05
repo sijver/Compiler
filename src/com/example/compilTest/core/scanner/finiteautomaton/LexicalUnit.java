@@ -37,6 +37,8 @@ public enum LexicalUnit {
     SEMICOLON,
     SUB,
     IDENTIFIER,
+    LSQUARE,
+    RSQUARE,
     EOF;
 
     public static LexicalUnit getStackBottomSymbol(){

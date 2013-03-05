@@ -116,6 +116,8 @@ public class PerlAutomatonSettings {
         transitionsList.add(new Transition(73, 22, "[e]"));
         transitionsList.add(new Transition(74, 20, "[t]"));
         transitionsList.add(new Transition(74, 19, "[e]"));
+        transitionsList.add(new Transition(0, 75, "[\\[]"));
+        transitionsList.add(new Transition(0, 76, "[\\]]"));
     }
 
     public static List<Transition> getTransitions() {
@@ -164,6 +166,8 @@ public class PerlAutomatonSettings {
         acceptStatesList.add(new AcceptState(60, LexicalUnit.UNLESS, false));
         acceptStatesList.add(new AcceptState(68, LexicalUnit.INTEGER, true));
         acceptStatesList.add(new AcceptState(72, LexicalUnit.LOW_NOT, false));
+        acceptStatesList.add(new AcceptState(75, LexicalUnit.LSQUARE, false));
+        acceptStatesList.add(new AcceptState(76, LexicalUnit.RSQUARE, false));
     }
 
     public static List<AcceptState> getAcceptStatesList() {
