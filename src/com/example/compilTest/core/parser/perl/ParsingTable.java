@@ -27,9 +27,13 @@ public class ParsingTable {
 
     public void setRuleInCell(int nonterminalNum, int lexicalUnitNum, int ruleNum){
         if(parsingTable[nonterminalNum][lexicalUnitNum] != -1){
-            System.out.println("FUCK! " + parsingTable[nonterminalNum][lexicalUnitNum] + " " + ruleNum + " in " + Nonterminal.values()[nonterminalNum] + " " + LexicalUnit.values()[lexicalUnitNum]);
+            System.out.println("Bad situation! Ambiguous!" + parsingTable[nonterminalNum][lexicalUnitNum] + " " + ruleNum + " in " + Nonterminal.values()[nonterminalNum] + " " + LexicalUnit.values()[lexicalUnitNum]);
         }
         parsingTable[nonterminalNum][lexicalUnitNum] = ruleNum;
+    }
+
+    public int getRuleFromCell(Nonterminal nonterminal, LexicalUnit lexicalUnit){
+        return getRuleFromCell(nonterminal.ordinal(), lexicalUnit.ordinal());
     }
 
     public int getRuleFromCell(int nonterminalNum, int lexicalUnitNum){
@@ -56,12 +60,26 @@ public class ParsingTable {
     public static void main(String[] args) {
         ParsingTable parsingTable = new ParsingTable(Nonterminal.values().length, LexicalUnit.values().length);
         parsingTable.fillTheParsingTable();
-        for(int i = 0; i <  Nonterminal.values().length; i++){
-            for(int j = 0; j < LexicalUnit.values().length; j++){
-                System.out.print(parsingTable.getRuleFromCell(i, j) + " ");
-            }
-            System.out.println();
+        System.out.println("<html><body><table>");
+        System.out.println("<tr><th></th>");
+        for(LexicalUnit lexicalUnit : LexicalUnit.values()){
+            System.out.println(String.format("<th>%s</th>", lexicalUnit.name()));
         }
+        System.out.println("</tr>");
+        for(int i = 0; i <  Nonterminal.values().length; i++){
+            System.out.println("<tr>");
+            System.out.println(String.format("<th>%s</th>", Nonterminal.values()[i].name()));
+            for(int j = 0; j < LexicalUnit.values().length; j++){
+                if(parsingTable.getRuleFromCell(i, j) != -1){
+                    System.out.print(String.format("<td>%d</td>", parsingTable.getRuleFromCell(i, j)));
+                } else {
+                    System.out.print("<td>-</td>");
+                }
+
+            }
+            System.out.println("</tr>");
+        }
+        System.out.println("</table></body></html>");
     }
 
 

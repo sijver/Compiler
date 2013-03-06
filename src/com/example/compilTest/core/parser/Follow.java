@@ -45,7 +45,7 @@ public class Follow {
         }
         for (GrammarRule rule : PerlGrammar.getGrammarRules()) {
             for (int i = 0; i < rule.getRightSideRule().size(); i++) {
-                if (rule.getRightSideRule().get(i) != null && rule.getRightSideRule().get(i).getClass() == Nonterminal.class && (Nonterminal) rule.getRightSideRule().get(i) == nonterminal) {
+                if (rule.getRightSideRule().get(i) != null && rule.getRightSideRule().get(i).getClass() == Nonterminal.class && rule.getRightSideRule().get(i) == nonterminal) {
                     if (i < rule.getRightSideRule().size() - 1) {
                         List<Object> betaRulePart = rule.getRightSideRule().subList(i + 1, rule.getRightSideRule().size());
                         Set<LexicalUnit> betaFirst = First.getFirst(betaRulePart);
@@ -69,7 +69,9 @@ public class Follow {
     }
 
     public static Follow getFollow(Nonterminal nonterminal) {
-        System.out.println(nonterminal);
+
+//        Debug info
+//        System.out.println(nonterminal);
         if (followComputed == null) {
             allFollowList = new LinkedList<Follow>();
             followComputed = new HashSet<Nonterminal>();

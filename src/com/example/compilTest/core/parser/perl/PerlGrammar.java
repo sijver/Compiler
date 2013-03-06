@@ -50,7 +50,7 @@ public class PerlGrammar {
         grammarRules.add(new GrammarRule(Nonterminal.INSTRUCTION, new Object[]{LexicalUnit.VAR, LexicalUnit.ASSIGN_MARK, Nonterminal.EXPRESSION}));
         grammarRules.add(new GrammarRule(Nonterminal.CONDITION, new Object[]{LexicalUnit.IF, Nonterminal.EXPRESSION, LexicalUnit.LBRACE, Nonterminal.INSTRUCTION_LIST, LexicalUnit.RBRACE, Nonterminal.CONDITION_END}));
         grammarRules.add(new GrammarRule(Nonterminal.CONDITION, new Object[]{LexicalUnit.UNLESS, Nonterminal.EXPRESSION, LexicalUnit.LBRACE, Nonterminal.INSTRUCTION_LIST, LexicalUnit.RBRACE, Nonterminal.CONDITION_END}));
-        grammarRules.add(new GrammarRule(Nonterminal.CONDITION_END, new Object[]{LexicalUnit.ELSE, Nonterminal.EXPRESSION, LexicalUnit.LBRACE, Nonterminal.INSTRUCTION_LIST, LexicalUnit.RBRACE, Nonterminal.CONDITION_END}));
+        grammarRules.add(new GrammarRule(Nonterminal.CONDITION_END, new Object[]{LexicalUnit.ELSE, LexicalUnit.LBRACE, Nonterminal.INSTRUCTION_LIST, LexicalUnit.RBRACE, Nonterminal.CONDITION_END}));
         grammarRules.add(new GrammarRule(Nonterminal.CONDITION_END, new Object[]{LexicalUnit.ELSEIF, Nonterminal.EXPRESSION, LexicalUnit.LBRACE, Nonterminal.INSTRUCTION_LIST, LexicalUnit.RBRACE, Nonterminal.CONDITION_END}));
         grammarRules.add(new GrammarRule(Nonterminal.CONDITION_END, new Object[]{null}));
         grammarRules.add(new GrammarRule(Nonterminal.EXPRESSION, new Object[]{LexicalUnit.LOW_NOT, Nonterminal.T_EXPRESSION}));
@@ -95,6 +95,13 @@ public class PerlGrammar {
             createGrammarRules();
         }
         return grammarRules;
+    }
+
+    public static GrammarRule getRuleByNumber(int ruleNumber){
+        if(grammarRules == null){
+            createGrammarRules();
+        }
+        return grammarRules.get(ruleNumber);
     }
 
 }
