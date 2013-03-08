@@ -1,5 +1,6 @@
-package com.example.compilTest.core.parser;
+package com.example.compilTest.core.parser.tree;
 
+import com.example.compilTest.core.parser.Nonterminal;
 import com.example.compilTest.core.parser.perl.ParsingTable;
 import com.example.compilTest.core.parser.perl.PerlGrammar;
 import com.example.compilTest.core.scanner.finiteautomaton.FiniteAutomaton;
@@ -22,6 +23,8 @@ public class ParseTree {
     private ParsingTable parsingTable;
     private List<Integer> outputRulesList;
     private LinkedList<Object> stack;
+    private LinkedList<TreeNode> treeStack;
+    private TreeNode treeRoot;
 
     public ParseTree(List<Token> inputTokensList) {
         this.inputTokensList = inputTokensList;
@@ -39,16 +42,22 @@ public class ParseTree {
         stack = new LinkedList<Object>();
         stack.addFirst(LexicalUnit.getStackBottomSymbol());
         stack.addFirst(Nonterminal.getStartSymbol());
+
+        treeRoot = new TreeNode(Nonterminal.getStartSymbol(), -1);
+        treeStack = new LinkedList<TreeNode>();
+        treeStack.addFirst(treeRoot);
     }
 
     public void doParsing() {
         boolean isSymbolRead;
         for (Token symbol : inputTokensList) {
-            isSymbolRead = false;   // Shows is symbol read and we can work with the next input symbol
+            isSymbolRead = false;   // Shows is the symbol has being read and we can work with the next input symbol
             while (!isSymbolRead) {
                 if (stack.getFirst().getClass() == LexicalUnit.class) {
                     if (symbol.getLexicalUnit() == stack.getFirst()) {
-                        stack.removeFirst();
+                        if(stack.removeFirst() != LexicalUnit.EOF){
+                            treeStack.removeFirst();
+                        }
 
 //                        Debug info
 //                        System.out.println("read " + symbol.getLexicalUnit());
@@ -64,10 +73,17 @@ public class ParseTree {
                     if (ruleNumber != -1) {
                         outputRulesList.add(ruleNumber);
                         stack.removeFirst();
+
+                        TreeNode parentNode = treeStack.removeFirst();
+
                         List<Object> addToStack = PerlGrammar.getRuleByNumber(ruleNumber).getRightSideRule();
                         for (int i = addToStack.size() - 1; i >= 0; i--) {
                             if (addToStack.get(i) != null) {
                                 stack.addFirst(addToStack.get(i));
+
+                                TreeNode newNode = new TreeNode(addToStack.get(i), ruleNumber);
+                                newNode.setParentNode(parentNode);
+                                treeStack.addFirst(newNode);
                             }
                         }
                     } else {
@@ -98,5 +114,7 @@ public class ParseTree {
 
         System.out.println(Arrays.toString(parseTree.getOutputRulesList().toArray()));
         System.out.println(parseTree.getOutputRulesList().size());
+        System.out.println(parseTree.treeRoot.getTreeNodes());
+        System.out.println(parseTree.treeRoot.getTreeText());
     }
 }
