@@ -37,7 +37,7 @@ public class FiniteAutomaton {
         finiteAutomaton.setBackTransitions(PerlAutomatonSettings.getBackTransitions());
         finiteAutomaton.setCommentSymbol(PerlAutomatonSettings.getCommentSymbol());
         finiteAutomaton.setStringStates(PerlAutomatonSettings.getStringStates());
-        List<Token> tokensList = finiteAutomaton.getScannedTokens(FileLoader.readTheFile("C:\\Users\\Mark\\Desktop\\2.txt"));
+        List<Token> tokensList = finiteAutomaton.getScannedTokens(FileLoader.readTheFile("C:\\Users\\Mark\\Desktop\\perl.txt"));
         for (Token t : tokensList) {
             System.out.println(t.getLexicalUnit() + "   " + t.getReturnValue());
         }
@@ -129,6 +129,20 @@ public class FiniteAutomaton {
                         }
                     }
                 } while (isBackTransition);
+            }
+        }
+        for (int backTransition : backTransitions) {
+            if (transitionsList.get(backTransition).getFromState() == currentState) {
+                int toState = transitionsList.get(backTransition).getToState();
+                for (AcceptState acceptState : acceptStatesList) {
+                    if (acceptState.getStateNum() == toState) {
+                        if (acceptState.hasReturnValue()) {
+                            tokensList.add(new Token(acceptState.getTokenReturnType(), currentString.toString()));
+                        } else {
+                            tokensList.add(new Token(acceptState.getTokenReturnType(), null));
+                        }
+                    }
+                }
             }
         }
         tokensList.add(new Token(LexicalUnit.getStackBottomSymbol(), null));
