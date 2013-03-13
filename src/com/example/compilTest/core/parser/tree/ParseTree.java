@@ -56,7 +56,7 @@ public class ParseTree {
                 if (stack.getFirst().getClass() == LexicalUnit.class) {
                     if (symbol.getLexicalUnit() == stack.getFirst()) {
                         if(stack.removeFirst() != LexicalUnit.EOF){
-                            treeStack.removeFirst();
+                            treeStack.removeFirst().setNodeValue(symbol);
                         }
 
 //                        Debug info
@@ -116,5 +116,11 @@ public class ParseTree {
         System.out.println(parseTree.getOutputRulesList().size());
         System.out.println(parseTree.treeRoot.getTreeNodes());
         System.out.println(parseTree.treeRoot.getTreeText());
+
+        parseTree.treeRoot.compressNode();
+
+        System.out.println(parseTree.treeRoot.getTreeNodes());
+        System.out.println(parseTree.treeRoot.getTreeText());
+
     }
 }

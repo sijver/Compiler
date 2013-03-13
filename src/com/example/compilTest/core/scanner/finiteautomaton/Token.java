@@ -20,4 +20,9 @@ public class Token {
     public String getReturnValue() {
         return returnValue;
     }
+
+    @Override
+    public String toString(){
+        return lexicalUnit.toString() + " = " + returnValue;
+    }
 }

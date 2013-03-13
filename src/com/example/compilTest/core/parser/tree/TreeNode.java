@@ -1,5 +1,7 @@
 package com.example.compilTest.core.parser.tree;
 
+import com.example.compilTest.core.parser.Nonterminal;
+
 import java.util.LinkedList;
 
 /**
@@ -36,12 +38,13 @@ public class TreeNode {
 
     public void removeChildrenNodes(){
         for(TreeNode child : childrenNodes){
-            child.removeParentEdge();
+            child.removeParent();
         }
         childrenNodes.clear();
     }
 
-    public void removeParentEdge(){
+    public void removeParent(){
+        parentNode.childrenNodes.remove(this);
         parentNode = null;
     }
 
@@ -103,6 +106,26 @@ public class TreeNode {
             a = a.concat(s + "-" + child.getBranchText("|" + s));
         }
         return a;
+    }
+
+    public void compressNode(){
+        if(!isCompressable()){
+            for(TreeNode child : childrenNodes){
+                child.compressNode();
+            }
+        }
+        if(isCompressable()){
+            if(childrenNodes.size() == 1){
+                this.nodeValue = childrenNodes.getFirst().nodeValue;
+                removeChildrenNodes();
+            }
+            if(childrenNodes.size() > 1){
+                System.out.println("there must be computing");
+            }
+            if(childrenNodes.isEmpty() && nodeValue.getClass() == Nonterminal.class){
+                removeParent();
+            }
+        }
     }
 
 }
