@@ -7,6 +7,7 @@ public class Token {
 
     private LexicalUnit lexicalUnit;
     private String returnValue;
+    private int registerUsing = -1;
 
     public Token(LexicalUnit lexicalUnit, String returnValue) {
         this.lexicalUnit = lexicalUnit;
@@ -19,6 +20,14 @@ public class Token {
 
     public String getReturnValue() {
         return returnValue;
+    }
+
+    public int getRegisterUsing() {
+        return registerUsing;
+    }
+
+    public void setRegisterUsing(int registerUsing) {
+        this.registerUsing = registerUsing;
     }
 
     @Override
