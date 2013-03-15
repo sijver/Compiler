@@ -3,6 +3,7 @@ package com.example.compilTest.core.scanner.finiteautomaton;
 /**
  * Created with IntelliJ IDEA.
  */
+//List of Lexical units fo perl
 public enum LexicalUnit {
     LPAR,
     RPAR,
@@ -41,6 +42,7 @@ public enum LexicalUnit {
     RSQUARE,
     EOF;
 
+    //Returns the EOF symbol
     public static LexicalUnit getStackBottomSymbol(){
         return EOF;
     }

@@ -3,11 +3,12 @@ package com.example.compilTest.core.scanner.finiteautomaton;
 /**
  * Created with IntelliJ IDEA.
  */
+//Class represents transition from one to another state of DFA
 public class Transition {
 
-    private int fromState;
-    private int toState;
-    private String regularExpression;
+    private int fromState;  //"From" state
+    private int toState;    //"Into" state
+    private String regularExpression;   //Regex which satisfies the transition
 
     public Transition(int fromState, int toState, String regularExpression) {
         this.fromState = fromState;

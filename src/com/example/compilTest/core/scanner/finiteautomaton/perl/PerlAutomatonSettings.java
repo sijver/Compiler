@@ -12,15 +12,17 @@ import java.util.Set;
 /**
  * Created with IntelliJ IDEA.
  */
+//Class which is intended for storing of parameters and characteristics of DFA for Perl
 public class PerlAutomatonSettings {
 
-    private static List<Transition> transitionsList;
-    private static List<AcceptState> acceptStatesList;
-    private static  List<Integer> backTransitionList;
-    private static int startState = 0;
-    private static Set<Integer> stringStates;
-    private static String commentSymbol = "#";
+    private static List<Transition> transitionsList;    // Transitions between states of DFA
+    private static List<AcceptState> acceptStatesList;  // List of states which are accepting and what each of them accepts
+    private static  List<Integer> backTransitionList;   // Transitions in which we have to look for previous read symbol to add it to token
+    private static int startState = 0;  // Number of state which is starting
+    private static Set<Integer> stringStates;   // States in which we are reading String
+    private static String commentSymbol = "#";  // Symbol of comment start
 
+    //Creates the list of all tranisitions of DFA
     private static void createTransitions(){
         transitionsList = new LinkedList<Transition>();
         transitionsList.add(new Transition(0, 1, "[(]"));
@@ -120,6 +122,7 @@ public class PerlAutomatonSettings {
         transitionsList.add(new Transition(0, 76, "[\\]]"));
     }
 
+    // Returns all transitions created
     public static List<Transition> getTransitions() {
         if(transitionsList == null){
             createTransitions();
@@ -127,10 +130,12 @@ public class PerlAutomatonSettings {
         return transitionsList;
     }
 
+    // Returns start state
     public static int getStartState() {
         return startState;
     }
 
+    //Creates list of accepting states
     private static void createAcceptStatesList(){
         acceptStatesList = new LinkedList<AcceptState>();
         acceptStatesList.add(new AcceptState(1, LexicalUnit.LPAR, false));
@@ -170,6 +175,7 @@ public class PerlAutomatonSettings {
         acceptStatesList.add(new AcceptState(76, LexicalUnit.RSQUARE, false));
     }
 
+    //Returns list of accepting states
     public static List<AcceptState> getAcceptStatesList() {
         if(acceptStatesList == null){
             createAcceptStatesList();
@@ -177,6 +183,7 @@ public class PerlAutomatonSettings {
         return acceptStatesList;
     }
 
+    // Creates "back transitions" (see variable description)
     private static void createBackTransitions(){
         backTransitionList = new LinkedList<Integer>();
         backTransitionList.add(13);
@@ -190,6 +197,7 @@ public class PerlAutomatonSettings {
 
     }
 
+    //returns back transitions
     public static List<Integer> getBackTransitions() {
         if(backTransitionList == null){
             createBackTransitions();
@@ -197,6 +205,7 @@ public class PerlAutomatonSettings {
         return backTransitionList;
     }
 
+    //Creates list of string states
     private static void createStringStates(){
         stringStates = new HashSet<Integer>();
         stringStates.add(26);
@@ -204,6 +213,7 @@ public class PerlAutomatonSettings {
         stringStates.add(30);
     }
 
+    //Returns the list of string states
     public static Set<Integer> getStringStates() {
         if(stringStates == null){
             createStringStates();
@@ -211,6 +221,7 @@ public class PerlAutomatonSettings {
         return stringStates;
     }
 
+    //Returns comment symbol
     public static String getCommentSymbol() {
         return commentSymbol;
     }

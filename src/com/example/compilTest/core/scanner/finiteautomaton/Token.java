@@ -3,11 +3,12 @@ package com.example.compilTest.core.scanner.finiteautomaton;
 /**
  * Created with IntelliJ IDEA.
  */
+//Class intended for token description
 public class Token {
 
-    private LexicalUnit lexicalUnit;
-    private String returnValue;
-    private int registerUsing = -1;
+    private LexicalUnit lexicalUnit;    //Lexical unit token represents
+    private String returnValue; //Value of token (if exists)
+    private int registerUsing = -1; //Which register of processor token is using
 
     public Token(LexicalUnit lexicalUnit, String returnValue) {
         this.lexicalUnit = lexicalUnit;
