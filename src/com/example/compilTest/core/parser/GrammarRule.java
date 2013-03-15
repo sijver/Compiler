@@ -7,11 +7,13 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  */
+//Grammar rule.
 public class GrammarRule {
 
-    private Nonterminal leftSideNonterminal;
+    private Nonterminal leftSideNonterminal;    //Left side of rule (Nonterminal)
 
-    private List<Object> rightSideRule;
+    private List<Object> rightSideRule; //Right side of the rule (sequence of terminals and nonterminals)
+
 
     public GrammarRule(Nonterminal leftSideNonterminal, List<Object> rightSideRule) {
         this.leftSideNonterminal = leftSideNonterminal;

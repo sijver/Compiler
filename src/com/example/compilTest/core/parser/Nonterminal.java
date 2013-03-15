@@ -3,6 +3,7 @@ package com.example.compilTest.core.parser;
 /**
  * Created with IntelliJ IDEA.
  */
+//All nonterminals of Perl Grammar
 public enum Nonterminal {
     PROGRAM,
     A,

@@ -11,18 +11,20 @@ import java.util.Set;
 /**
  * Created with IntelliJ IDEA.
  */
+//Looks for "follows"
 public class Follow {
 
-    private static List<Follow> allFollowList;
-    private static Set<Nonterminal> followComputed;
-    private Nonterminal nonterminal;
-    private List<LexicalUnit> followList;
+    private static List<Follow> allFollowList;  //All follow already found
+    private static Set<Nonterminal> followComputed; //All nonterminals for which follows already found
+    private Nonterminal nonterminal;    //current nonterminal
+    private List<LexicalUnit> followList;   //follows of current nonterminal
 
     public Follow(Nonterminal nonterminal, List<LexicalUnit> followList) {
         this.nonterminal = nonterminal;
         this.followList = followList;
     }
 
+    //For debug. all follows
     private static void computeAllFollowList() {
         allFollowList = new LinkedList<Follow>();
         followComputed = new HashSet<Nonterminal>();
@@ -31,6 +33,7 @@ public class Follow {
         }
     }
 
+    //For debug. all follows
     public static List<Follow> getAllFollowList() {
         if (allFollowList == null) {
             computeAllFollowList();
@@ -38,6 +41,7 @@ public class Follow {
         return allFollowList;
     }
 
+    //Computes follow
     private static void computeFollow(Nonterminal nonterminal) {
         Set<LexicalUnit> follow = new HashSet<LexicalUnit>();
         if (nonterminal == Nonterminal.getStartSymbol()) {
@@ -87,6 +91,7 @@ public class Follow {
         return null;
     }
 
+    //Debug for follow
     public static void main(String[] args) {
         for (Follow f : getAllFollowList()) {
             System.out.println(f.getNonterminal().toString());

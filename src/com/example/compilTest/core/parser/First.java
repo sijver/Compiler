@@ -11,16 +11,18 @@ import java.util.Set;
 /**
  * Created with IntelliJ IDEA.
  */
+//Class for looking of "firsts" of grammar rule
 public class First {
 
-    private Nonterminal nonterminal;
-    private List<LexicalUnit> firstList;
+    private Nonterminal nonterminal;    //Nonterminal for which look
+    private List<LexicalUnit> firstList;    //List of all firsts for nonterminal
 
     public First(Nonterminal nonterminal, List<LexicalUnit> firstList) {
         this.nonterminal = nonterminal;
         this.firstList = firstList;
     }
 
+    //For debug. Looks for all firsts.
     public static List<First> getAllFirstList() {
         List<First> allFirstList = new LinkedList<First>();
         for (Nonterminal nonterminal : Nonterminal.values()) {
@@ -29,23 +31,25 @@ public class First {
         return allFirstList;
     }
 
+    //Looks for firsts for nonterminal
     public static First getFirst(Nonterminal nonterminal) {
         Set<LexicalUnit> first = new HashSet<LexicalUnit>();
         for (GrammarRule rule : PerlGrammar.getGrammarRules()) {
-            if (rule.getLeftSideNonterminal() == nonterminal) {
+            if (rule.getLeftSideNonterminal() == nonterminal) { //Add all firsts of each right side rule for nonterminal
                 first.addAll(getFirst(rule.getRightSideRule()));
             }
         }
         return new First(nonterminal, new LinkedList<LexicalUnit>(first));
     }
 
+    //Get first of right side rule
     public static Set<LexicalUnit> getFirst(List<Object> rule){
         Set<LexicalUnit> first = new HashSet<LexicalUnit>();
-            if (rule.get(0) != null && rule.get(0).getClass() == LexicalUnit.class) {
+            if (rule.get(0) != null && rule.get(0).getClass() == LexicalUnit.class) {   //If terminal first -> add it
                 first.add((LexicalUnit) rule.get(0));
             } else if (rule.get(0) == null) {
-                first.add(null);
-            } else {
+                first.add(null);    //Add lambda to first
+            } else {    //If first symbol of rule - nonterminal -> recursive search of firsts
                 for (Object unit : rule) {
                     if (unit.getClass() == Nonterminal.class) {
                         First f = getFirst((Nonterminal) unit);
@@ -62,6 +66,7 @@ public class First {
         return first;
     }
 
+    //For debug and output of all firsts
     public static void main(String[] args) {
         for (First f : getAllFirstList()) {
             System.out.println(f.getNonterminal().toString());
