@@ -7,6 +7,7 @@ import java.io.IOException;
 /**
  * Created with IntelliJ IDEA.
  */
+//Loader of the text file
 public class FileLoader {
 
     public static String readTheFile(String filePath) throws IOException {
