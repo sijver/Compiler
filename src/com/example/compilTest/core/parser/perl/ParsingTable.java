@@ -12,10 +12,12 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  */
+//Class constructs parsing table for Perl
 public class ParsingTable {
 
-    private int[][] parsingTable;
+    private int[][] parsingTable;   //Matrix of parsing table
 
+    //Creates parsing table with -1 cells values - means no rule in this cell
     public ParsingTable(int nonteminalsNum, int lexicalUnitsNum) {
         parsingTable = new int[nonteminalsNum][lexicalUnitsNum];
         for(int i = 0; i <  nonteminalsNum; i++){
@@ -25,6 +27,7 @@ public class ParsingTable {
         }
     }
 
+    //Sets rule in appropriate cell. Can determine ambiguousity
     public void setRuleInCell(int nonterminalNum, int lexicalUnitNum, int ruleNum){
         if(parsingTable[nonterminalNum][lexicalUnitNum] != -1){
             System.out.println("Bad situation! Ambiguous!" + parsingTable[nonterminalNum][lexicalUnitNum] + " " + ruleNum + " in " + Nonterminal.values()[nonterminalNum] + " " + LexicalUnit.values()[lexicalUnitNum]);
@@ -40,16 +43,17 @@ public class ParsingTable {
         return parsingTable[nonterminalNum][lexicalUnitNum];
     }
 
+    //Fills the parsing table
     public void fillTheParsingTable(){
-        for(int i = 0; i < PerlGrammar.getGrammarRules().size(); i++){
+        for(int i = 0; i < PerlGrammar.getGrammarRules().size(); i++){  //Loop through all the rules
             GrammarRule rule = PerlGrammar.getGrammarRules().get(i);
             List<LexicalUnit> first = new LinkedList<LexicalUnit>(First.getFirst(rule.getRightSideRule()));
-            for(LexicalUnit lexicalUnitFirst : first){
-                if(lexicalUnitFirst != null){
+            for(LexicalUnit lexicalUnitFirst : first){  //Loop through all the "firsts" of each rule
+                if(lexicalUnitFirst != null){   //Add all "firsts" to table
                     setRuleInCell(rule.getLeftSideNonterminal().ordinal(), lexicalUnitFirst.ordinal(), i);
-                } else {
+                } else {    //If rule has lambda as "first" then look for "follow"
                     List<LexicalUnit> follow = Follow.getFollow(rule.getLeftSideNonterminal()).getFollowList();
-                    for(LexicalUnit lexicalUnitFollow : follow){
+                    for(LexicalUnit lexicalUnitFollow : follow){    //Add all "follows" to table
                         setRuleInCell(rule.getLeftSideNonterminal().ordinal(), lexicalUnitFollow.ordinal(), i);
                     }
                 }
@@ -57,6 +61,7 @@ public class ParsingTable {
         }
     }
 
+    //For debug and output the parsing table in html format
     public static void main(String[] args) {
         ParsingTable parsingTable = new ParsingTable(Nonterminal.values().length, LexicalUnit.values().length);
         parsingTable.fillTheParsingTable();

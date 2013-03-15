@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  */
+//Grammar of Perl. Consists of list of all grammar rules.
 public class PerlGrammar {
 
     private static List<GrammarRule> grammarRules;
