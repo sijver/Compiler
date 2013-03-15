@@ -108,10 +108,12 @@ public class FiniteAutomaton {
                                 if (acceptState.getStateNum() == currentState) {
                                     if (acceptState.hasReturnValue()) {
                                         if (acceptState.getTokenReturnType() == LexicalUnit.STRING) {
-                                            if (!currentString.subSequence(0, 1).equals("q")) {
-                                                currentString = new StringBuilder(currentString.substring(1));
+                                            if (currentString.subSequence(0, 1).equals("q")) {
+                                                currentString = new StringBuilder(currentString.toString().replaceFirst("q^", ""));
+                                            } else if (currentString.subSequence(0, 1).equals("'")) {
+                                                currentString = new StringBuilder(currentString.toString().replaceFirst("'", ""));
                                             } else {
-                                                currentString = new StringBuilder(currentString.substring(2));
+                                                currentString = new StringBuilder(currentString.toString().replaceFirst("\"", ""));
                                             }
                                         }
                                         tokensList.add(new Token(acceptState.getTokenReturnType(), currentString.toString().substring(0, currentString.length() - 1)));
